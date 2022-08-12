@@ -1,5 +1,5 @@
 from dataclasses import asdict, dataclass
-from typing import ClassVar
+from typing import ClassVar, Dict, Type
 
 
 @dataclass
@@ -12,10 +12,11 @@ class InfoMessage:
     speed: float
     calories: float
     MESSAGE: ClassVar[str] = (
-        "Тип тренировки: {training_type}; Длительность: "
-        "{duration:.03f} ч.; Дистанция: {distance:.03f}"
-        " км; Ср. скорость: {speed:.03f} км/ч;"
-        " Потрачено ккал: {calories:.03f}."
+        "Тип тренировки: {training_type}; "
+        "Длительность: {duration:.03f} ч.; "
+        "Дистанция: {distance:.03f} км; "
+        "Ср. скорость: {speed:.03f} км/ч; "
+        "Потрачено ккал: {calories:.03f}."
     )
 
     def get_message(self) -> str:
@@ -72,8 +73,8 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
 
-    COEFF_FOR_COUNTING_CALORIES_1: int = 18
-    COEFF_FOR_COUNTING_CALORIES_2: int = 20
+    COEFF_FOR_COUNTING_CALORIES_1: float = 18
+    COEFF_FOR_COUNTING_CALORIES_2: float = 20
 
     def get_spent_calories(self) -> float:
         return (
@@ -147,7 +148,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    training_type: type[str[Training]] = {
+    training_type: Dict[Type[str[Training]]] = {
         "SWM": Swimming,
         "RUN": Running,
         "WLK": SportsWalking,
